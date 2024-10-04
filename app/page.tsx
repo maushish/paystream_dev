@@ -1,5 +1,6 @@
 "use client";
 import { TypewriterEffectSmooth } from "../components/ui/typewriter-effect";
+import Link from 'next/link';
 
 export default function TypewriterEffectSmoothDemo() {
   const words = [
@@ -24,19 +25,19 @@ export default function TypewriterEffectSmoothDemo() {
       className: "text-blue-500 dark:text-blue-500",
     },
   ];
+
   return (
     <div className="flex flex-col bg-black items-center justify-center min-h-screen">
       <p className="text-neutral-300 dark:text-neutral-200 text-xs sm:text-base">
-      Simplify Your Crypto Payments
+        Simplify Your Crypto Payments
       </p>
       <TypewriterEffectSmooth words={words} />
       <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4 mt-8">
-        <button className="w-40 h-10 rounded-xl bg-black border border-white text-white text-sm hover:bg-white hover:text-black">
-          Pay
-        </button>
-        {/* <button className="w-40 h-10 rounded-xl bg-white text-black border text-sm">
-          Pay
-        </button> */}
+        <Link href="/Forms">
+          <button className="w-40 h-10 rounded-xl bg-black border border-white text-white text-sm hover:bg-white hover:text-black">
+            Pay
+          </button>
+        </Link>
       </div>
     </div>
   );
