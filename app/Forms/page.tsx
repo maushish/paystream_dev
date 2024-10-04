@@ -1,36 +1,68 @@
 "use client";
-import React from "react";
-import { BackgroundGradient } from "../../components/ui/background-gradient";
-import { IconAppWindow } from "@tabler/icons-react";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-export default function BackgroundGradientDemo() {
-  return (
-    <div>
-      <BackgroundGradient className="rounded-[22px] max-w-sm p-4 sm:p-10 bg-white dark:bg-zinc-900">
-        <Image
-          src="/Public/paystream.jpeg"
-          alt="jordans"
-          height="400"
-          width="400"
-          className="object-contain"
-        />
-        <p className="text-base sm:text-xl text-black mt-4 mb-2 dark:text-neutral-200">
-          Air Jordan 4 Retro Reimagined
-        </p>
+export default function CenteredCardDemo() {
+  const cards = [
+    {
+      author: "Manu Arora",
+      readTime: "2 min read",
+      title: "Author Card 1",
+      description: "Card with Author avatar, complete name and time to read - most suitable for blogs.",
+    },
+    {
+      author: "John Doe",
+      readTime: "3 min read",
+      title: "Author Card 2",
+      description: "Another interesting article with a different author and read time.",
+    },
+    {
+      author: "Jane Smith",
+      readTime: "4 min read",
+      title: "Author Card 3",
+      description: "A third article to showcase multiple cards in the layout.",
+    },
+  ];
 
-        <p className="text-sm text-neutral-600 dark:text-neutral-400">
-          The Air Jordan 4 Retro Reimagined Bred will release on Saturday,
-          February 17, 2024. Your best opportunity to get these right now is by
-          entering raffles and waiting for the official releases.
-        </p>
-        <button className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs font-bold dark:bg-zinc-800">
-          <span>Buy now </span>
-          <span className="bg-zinc-700 rounded-full text-[0.6rem] px-2 py-0 text-white">
-            $100
-          </span>
-        </button>
-      </BackgroundGradient>
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-black p-4">
+      <div className="flex flex-wrap justify-center gap-12">
+        {cards.map((card, index) => (
+          <div key={index} className="w-full sm:w-96 group/card">
+            <div
+              className={cn(
+                "cursor-pointer overflow-hidden relative card h-[35rem] rounded-lg shadow-xl flex flex-col justify-between p-6",
+                "bg-[url()] bg-cover"
+              )}
+            >
+              <div className="absolute w-full h-full top-0 left-0 transition duration-300 group-hover/card:bg-black opacity-60"></div>
+              <div className="flex flex-row items-center space-x-4 z-10">
+                <Image
+                  height="100"
+                  width="100"
+                  alt="Avatar"
+                  src="/api/placeholder/100/100"
+                  className="h-12 w-12 rounded-full border-2 object-cover"
+                />
+                <div className="flex flex-col">
+                  <p className="font-normal text-lg text-gray-50 relative z-10">
+                    {card.author}
+                  </p>
+                  <p className="text-base text-gray-400">{card.readTime}</p>
+                </div>
+              </div>
+              <div className="text content">
+                <h1 className="font-bold text-2xl md:text-3xl text-gray-50 relative z-10">
+                  {card.title}
+                </h1>
+                <p className="font-normal text-base text-gray-50 relative z-10 my-4">
+                  {card.description}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
