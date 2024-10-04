@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import { HoverEffect } from "../../components/ui/card-hover-effect";
 
 export default function CardHoverEffectDemo() {
