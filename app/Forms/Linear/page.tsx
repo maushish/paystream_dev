@@ -9,16 +9,25 @@ import { AlertCircle } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Line, LineChart, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
 
+// Define the type for chart data
+type ChartData = {
+  second: number;
+  value: number;
+}
+
 export default function TransactionForm() {
   const [address, setAddress] = useState("")
   const [amount, setAmount] = useState("")
   const [duration, setDuration] = useState("")
   const [error, setError] = useState("")
-  const [chartData, setChartData] = useState([])
+  const [chartData, setChartData] = useState<ChartData[]>([])  // Explicitly typing chartData
 
   useEffect(() => {
-    if (duration && !isNaN(duration)) {
-      const seconds = parseInt(duration)
+    // Convert duration to a number before checking with isNaN
+    const parsedDuration = Number(duration);
+
+    if (duration && !isNaN(parsedDuration)) {
+      const seconds = parseInt(duration, 10);  // Parse duration as an integer
       setChartData([
         { second: 0, value: 0 },
         { second: seconds, value: 1 }
@@ -94,9 +103,11 @@ export default function TransactionForm() {
                       }}
                       labelStyle={{ color: "#bfdbfe" }}
                       itemStyle={{ color: "#bfdbfe" }}
-                      formatter={(value, name, props) => [`${(value * parseFloat(amount || 0)).toFixed(2)}`, 'Amount']}
+                      // Explicitly cast value to number
+                      formatter={(value: any, name, props) => [`${((value as number) * parseFloat(amount || "0")).toFixed(2)}`, 'Amount']}
                       labelFormatter={(label) => `Second: ${label}`}
                     />
+
                     <Line 
                       type="linear"
                       dataKey="value" 
