@@ -1,4 +1,4 @@
-// import type { Metadata } from "next";
+import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
@@ -13,7 +13,10 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
-
+export const metadata = {
+  title: "Paystream",
+  description: "Leveraging the power of streams to create a trustless payment system.",
+}
 
 export default function RootLayout({
   children,
