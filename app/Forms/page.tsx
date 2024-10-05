@@ -7,7 +7,7 @@ const projects = [
     title: "Linear Stream",
     description:
       "Stream suitable for every client and every project. It is a stream that is linear and has a constant flow.",
-    link: "/Linear",
+    link: "/Forms/Linear",
   },
   {
     title: "Cliff Stream",
@@ -17,7 +17,7 @@ const projects = [
   {
     title: "Step-wise Stream",
     description: "Stream suitable for contractors that will be paid on weekly/monthly basis for some duration",
-    link: "/Stepwise",
+    link: "/Forms/Stepwise",
   },
 ];
 
