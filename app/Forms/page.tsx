@@ -12,7 +12,7 @@ const projects = [
   {
     title: "Cliff Stream",
     description: "Stream suitable for clients that dont wanna take risk in early stages but are willing to give constant payouts after cliff period.",
-    link: "/",
+    link: "/Forms/Cliff",
   },
   {
     title: "Step-wise Stream",
