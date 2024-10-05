@@ -15,7 +15,6 @@ const geistMono = localFont({
 });
 export const metadata = {
   title: "Paystream",
-  description: "Leveraging the power of streams to create a trustless payment system.",
 }
 
 export default function RootLayout({
