@@ -1,6 +1,5 @@
 "use client"
-
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -8,27 +7,32 @@ import { Button } from "@/components/ui/button"
 import { AlertCircle, Wallet } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Line, LineChart, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+import { useWallet } from "@solana/wallet-adapter-react"
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui"
+import { createRpc, confirmTx, LightSystemProgram, defaultTestStateTreeAccounts } from "@lightprotocol/stateless.js"
+import { ComputeBudgetProgram, Transaction } from "@solana/web3.js"
 
 // Define the type for chart data
 type ChartData = {
   second: number;
   value: number;
 }
-
+//TODO: Add airdrop and compress functionality
+// tRANSFER THE STREAMS TO ESCROW
+// Distribute the streams to the reciever
 export default function TransactionForm() {
   const [address, setAddress] = useState("")
   const [amount, setAmount] = useState("")
   const [duration, setDuration] = useState("")
   const [error, setError] = useState("")
-  const [chartData, setChartData] = useState<ChartData[]>([])  // Explicitly typing chartData
-  const [isWalletConnected, setIsWalletConnected] = useState(false)
+  const [chartData, setChartData] = useState<ChartData[]>([])
+  const { publicKey, sendTransaction, disconnect } = useWallet()
 
   useEffect(() => {
-    // Convert duration to a number before checking with isNaN
     const parsedDuration = Number(duration);
 
     if (duration && !isNaN(parsedDuration)) {
-      const seconds = parseInt(duration, 10);  // Parse duration as an integer
+      const seconds = parseInt(duration, 10);
       setChartData([
         { second: 0, value: 0 },
         { second: seconds, value: 1 }
@@ -60,10 +64,63 @@ export default function TransactionForm() {
     console.log("Form submitted:", { address, amount, duration: `${duration} seconds` })
   }
 
-  const handleWalletConnect = () => {
-    // Implement wallet connection logic here
-    setIsWalletConnected(!isWalletConnected)
-  }
+  const handleDisconnect = useCallback(async () => {
+    if (disconnect) {
+      await disconnect();
+    }
+  }, [disconnect]);
+
+  const handleAirdrop = useCallback(async () => {
+    if (!publicKey) {
+      setError("Please connect your wallet first.")
+      return
+    }
+
+   
+  try {
+    const connection = createRpc();
+
+    // Airdrop
+    const airdropSignature = await connection.requestAirdrop(publicKey, 1e9);
+    await confirmTx(connection, airdropSignature);
+
+    // Compress
+    const compressInstruction = await LightSystemProgram.compress({
+      payer: publicKey,
+      toAddress: publicKey,
+      lamports: 1e8,
+      outputStateTree: defaultTestStateTreeAccounts().merkleTree,
+    });
+
+    const compressInstructions = [
+      ComputeBudgetProgram.setComputeUnitLimit({ units: 1_000_000 }),
+      compressInstruction,
+    ];
+
+    // Create a Transaction and add the instructions
+    const tx = new Transaction().add(...compressInstructions);
+
+    const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+
+    const signature = await sendTransaction(
+      tx, // Pass the Transaction object
+      connection,
+      { maxRetries: 5 }
+    );
+
+    await connection.confirmTransaction({
+      blockhash,
+      lastValidBlockHeight,
+      signature,
+    });
+
+
+      console.log(`Compressed ${1e8} lamports! txId: https://explorer.solana.com/tx/${tx}?cluster=custom`);
+    } catch (err) {
+      console.error("Airdrop error:", err);
+      setError("Failed to airdrop and compress tokens. Please try again.");
+    }
+  }, [publicKey, sendTransaction]);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-black text-blue-100 transition-colors duration-200 p-4">
@@ -129,15 +186,17 @@ export default function TransactionForm() {
           <Card className="bg-gray-900 border-blue-800 rounded-xl shadow-lg">
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-blue-300">Stream Details</CardTitle>
-              <Button
-                onClick={handleWalletConnect}
-                className={`flex items-center gap-2 ${
-                  isWalletConnected ? 'bg-green-600 hover:bg-green-500' : 'bg-blue-700 hover:bg-blue-600'
-                } text-white rounded-lg px-4 py-2`}
-              >
-                <Wallet className="h-4 w-4" />
-                {isWalletConnected ? 'Connected' : 'Connect Wallet'}
-              </Button>
+              <div className="flex gap-2">
+                <WalletMultiButton className="bg-blue-700 hover:bg-blue-600 text-white rounded-lg px-4 py-2" />
+                {publicKey && (
+                  <Button
+                    onClick={handleDisconnect}
+                    className="bg-red-700 hover:bg-red-600 text-white rounded-lg px-4 py-2"
+                  >
+                    Disconnect
+                  </Button>
+                )}
+              </div>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -188,6 +247,12 @@ export default function TransactionForm() {
                   className="w-full bg-blue-700 hover:bg-blue-600 text-white rounded-lg"
                 >
                   Submit
+                </Button>
+                <Button 
+                  onClick={handleAirdrop}
+                  className="w-full bg-green-700 hover:bg-green-600 text-white rounded-lg"
+                >
+                  Airdrop & Compress Tokens
                 </Button>
               </form>
             </CardContent>
