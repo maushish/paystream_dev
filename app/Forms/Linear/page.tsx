@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
-import { AlertCircle } from "lucide-react"
+import { AlertCircle, Wallet } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Line, LineChart, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
 
@@ -21,6 +21,7 @@ export default function TransactionForm() {
   const [duration, setDuration] = useState("")
   const [error, setError] = useState("")
   const [chartData, setChartData] = useState<ChartData[]>([])  // Explicitly typing chartData
+  const [isWalletConnected, setIsWalletConnected] = useState(false)
 
   useEffect(() => {
     // Convert duration to a number before checking with isNaN
@@ -57,6 +58,11 @@ export default function TransactionForm() {
     }
 
     console.log("Form submitted:", { address, amount, duration: `${duration} seconds` })
+  }
+
+  const handleWalletConnect = () => {
+    // Implement wallet connection logic here
+    setIsWalletConnected(!isWalletConnected)
   }
 
   return (
@@ -103,11 +109,9 @@ export default function TransactionForm() {
                       }}
                       labelStyle={{ color: "#bfdbfe" }}
                       itemStyle={{ color: "#bfdbfe" }}
-                      // Explicitly cast value to number
-                      formatter={(value: any, name, props) => [`${((value as number) * parseFloat(amount || "0")).toFixed(2)}`, 'Amount']}
+                      formatter={(value: any) => [((value as number) * parseFloat(amount || "0")).toFixed(2), 'Amount']}
                       labelFormatter={(label) => `Second: ${label}`}
                     />
-
                     <Line 
                       type="linear"
                       dataKey="value" 
@@ -123,8 +127,17 @@ export default function TransactionForm() {
         </div>
         <div className="w-full md:w-3/5">
           <Card className="bg-gray-900 border-blue-800 rounded-xl shadow-lg">
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-blue-300">Stream Details</CardTitle>
+              <Button
+                onClick={handleWalletConnect}
+                className={`flex items-center gap-2 ${
+                  isWalletConnected ? 'bg-green-600 hover:bg-green-500' : 'bg-blue-700 hover:bg-blue-600'
+                } text-white rounded-lg px-4 py-2`}
+              >
+                <Wallet className="h-4 w-4" />
+                {isWalletConnected ? 'Connected' : 'Connect Wallet'}
+              </Button>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
