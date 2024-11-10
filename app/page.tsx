@@ -32,7 +32,7 @@
 import React, { useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { CircleDollarSign, ArrowDown } from 'lucide-react'
-import Paystream from '../data/Paystream.pdf'
+// import Paystream from '../data/Paystream.pdf'
 
 export default function PaystreamLanding() {
   const targetRef = useRef<HTMLDivElement>(null)
@@ -70,7 +70,7 @@ export default function PaystreamLanding() {
   }, [])
 
   const handleWhitepaperClick = () => {
-    window.open(Paystream, '_blank')
+    window.open('/data/Paystream.pdf', '_blank')
   }
 
   return (
