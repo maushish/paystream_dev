@@ -194,7 +194,6 @@ export default function PaystreamLanding() {
                     <h3 className="text-2xl font-bold text-purple-700 mb-4">Q1 2025</h3>
                     <ul className="list-disc list-inside text-purple-800 space-y-2">
                       <li>Launch Paystream on solana mainnet</li>
-                      <li></li>
                       <li>Introduce Paystream official token to support Yield-induced reward feature.</li>
                     </ul>
                   </div>
