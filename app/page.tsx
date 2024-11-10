@@ -69,9 +69,9 @@ export default function PaystreamLanding() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const handleWhitepaperClick = () => {
-    window.open('/data/Paystream.pdf', '_blank')
-  }
+  // const handleWhitepaperClick = () => {
+  //   window.open('/data/Paystream.pdf', '_blank')
+  // }
 
   return (
     <div className="min-h-screen bg-white text-purple-900">
@@ -79,12 +79,12 @@ export default function PaystreamLanding() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="text-purple-700 text-2xl font-bold">Paystream</div>
-            <button 
-              onClick={handleWhitepaperClick}
+            <a 
+              href= "https://paystream-whitepaper.vercel.app/"
               className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-all duration-300"
             >
               Whitepaper
-            </button>
+            </a>
           </div>
         </div>
       </nav>
