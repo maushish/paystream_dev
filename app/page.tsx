@@ -25,16 +25,14 @@
 //   );
 // }
 
-
-
 'use client'
 
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { CircleDollarSign, ArrowDown } from 'lucide-react'
-// import Paystream from '../data/Paystream.pdf'
 
 export default function PaystreamLanding() {
+  const [isMobile, setIsMobile] = useState(false)
   const targetRef = useRef<HTMLDivElement>(null)
   const roadmapRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
@@ -53,6 +51,13 @@ export default function PaystreamLanding() {
   const roadmapLineProgress = useTransform(roadmapProgress, [0, 0.9], [0, 1])
 
   useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    handleResize()
+    window.addEventListener('resize', handleResize)
+
     const handleScroll = () => {
       const scrollPosition = window.scrollY
       const navbar = document.getElementById('navbar')
@@ -66,12 +71,22 @@ export default function PaystreamLanding() {
     }
 
     window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      window.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
-  // const handleWhitepaperClick = () => {
-  //   window.open('/data/Paystream.pdf', '_blank')
-  // }
+  if (isMobile) {
+    return (
+      <div className="min-h-screen bg-white text-purple-900 flex items-center justify-center px-4">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Please open the website on a desktop</h1>
+          <p className="text-lg">For the best experience, this website is optimized for larger screens.</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-white text-purple-900">
@@ -80,7 +95,7 @@ export default function PaystreamLanding() {
           <div className="flex justify-between items-center py-4">
             <div className="text-purple-700 text-2xl font-bold">Paystream</div>
             <a 
-              href= "https://paystream-whitepaper.vercel.app/"
+              href="https://paystream-whitepaper.vercel.app/"
               className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-all duration-300"
             >
               Whitepaper
