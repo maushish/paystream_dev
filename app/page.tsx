@@ -24,22 +24,33 @@
     
 //   );
 // }
+
+
+
 'use client'
 
 import React, { useEffect, useRef } from 'react'
-import Link from 'next/link'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { CircleDollarSign, ArrowDown } from 'lucide-react'
+import Paystream from '../data/Paystream.pdf'
 
 export default function PaystreamLanding() {
   const targetRef = useRef<HTMLDivElement>(null)
+  const roadmapRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
     target: targetRef,
     offset: ['start end', 'end start'],
   })
 
+  const { scrollYProgress: roadmapProgress } = useScroll({
+    target: roadmapRef,
+    offset: ['start end', 'end start'],
+  })
+
   const opacity = useTransform(scrollYProgress, [0, 0.5], [0, 1])
   const scale = useTransform(scrollYProgress, [0, 0.5], [0.8, 1])
+
+  const roadmapLineProgress = useTransform(roadmapProgress, [0, 0.9], [0, 1])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -58,17 +69,22 @@ export default function PaystreamLanding() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const handleWhitepaperClick = () => {
+    window.open(Paystream, '_blank')
+  }
+
   return (
     <div className="min-h-screen bg-white text-purple-900">
       <nav id="navbar" className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="text-purple-700 text-2xl font-bold">Paystream</div>
-            <Link href="/whitepaper">
-              <button className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-all duration-300">
-                Whitepaper
-              </button>
-            </Link>
+            <button 
+              onClick={handleWhitepaperClick}
+              className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-all duration-300"
+            >
+              Whitepaper
+            </button>
           </div>
         </div>
       </nav>
@@ -96,11 +112,14 @@ export default function PaystreamLanding() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <Link href="/pay">
-              <button className="bg-purple-600 text-white text-xl font-semibold px-8 py-4 rounded-full hover:bg-purple-700 transition-all duration-300">
-                Pay Now
-              </button>
-            </Link>
+            <a 
+              href="https://t.me/khoo07878/"
+              target="_blank"
+              rel="noopener noreferrer" 
+              className="inline-block bg-purple-600 text-white text-xl font-semibold px-8 py-4 rounded-full hover:bg-purple-700 transition-all duration-300"
+            >
+              Book a Demo
+            </a>
           </motion.div>
         </div>
 
@@ -134,16 +153,14 @@ export default function PaystreamLanding() {
                 animate={{ left: '31%' }}
                 transition={{ duration: 3, repeat: Infinity, repeatType: 'loop' }}
               >
-                
                 <CircleDollarSign className="text-purple-500" size={24} />
               </motion.div>
               <motion.div
-                className="absolute top-1/2 transform -translate-y-1/2  z-20"
+                className="absolute top-1/2 transform -translate-y-1/2 z-20"
                 initial={{ left: '65%' }}
                 animate={{ left: '70%' }}
                 transition={{ duration: 3, repeat: Infinity, repeatType: 'loop' }}
               >
-                
                 <CircleDollarSign className="text-purple-500" size={24} />
               </motion.div>
             </div>
@@ -152,6 +169,58 @@ export default function PaystreamLanding() {
               service providers, ensuring fair and timely compensation for work completed.
             </p>
           </motion.div>
+        </div>
+
+        <div ref={roadmapRef} className="py-20 bg-purple-50">
+          <div className="max-w-6xl mx-auto px-4">
+            <h2 className="text-3xl md:text-5xl text-purple-700 font-bold mb-12 text-center">Roadmap</h2>
+            <div className="relative">
+              <motion.div
+                className="absolute left-4 top-10 bottom-10 w-0.5 bg-purple-500 origin-top"
+                style={{ scaleY: roadmapLineProgress }}
+              />
+              <div className="space-y-24">
+                <motion.div
+                  className="relative pl-12"
+                  initial={{ opacity: 0, x: -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5 }}
+                  viewport={{ once: true }}
+                >
+                  <div className="absolute left-0 top-0 w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center z-10">
+                    <div className="w-3 h-3 rounded-full bg-white" />
+                  </div>
+                  <div className="bg-white rounded-lg shadow-lg p-6">
+                    <h3 className="text-2xl font-bold text-purple-700 mb-4">Q1 2025</h3>
+                    <ul className="list-disc list-inside text-purple-800 space-y-2">
+                      <li>Launch beta version of Paystream on solana</li>
+                      <li>Integrate with major blockchain network</li>
+                      <li>Conduct security audits</li>
+                    </ul>
+                  </div>
+                </motion.div>
+                <motion.div
+                  className="relative pl-12"
+                  initial={{ opacity: 0, x: -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  viewport={{ once: true }}
+                >
+                  <div className="absolute left-0 top-0 w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center z-10">
+                    <div className="w-3 h-3 rounded-full bg-white" />
+                  </div>
+                  <div className="bg-white rounded-lg shadow-lg p-6">
+                    <h3 className="text-2xl font-bold text-purple-700 mb-4">Q2 2025</h3>
+                    <ul className="list-disc list-inside text-purple-800 space-y-2">
+                      <li>Official public launch of Paystream </li>
+                      <li>Introduce Yield generation feature along with the official token.</li>
+                      <li>Streamlined-loans feature beta launch</li>
+                    </ul>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </div>
         </div>
       </main>
 
