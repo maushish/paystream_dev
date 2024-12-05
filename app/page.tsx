@@ -103,16 +103,16 @@ export default function PaystreamLanding() {
             />
           </div>
           
-          <p className="text-gray-600 mb-4 relative">Earn, Stream and Build on Paystream</p>
+          <p className="text-gray-600 mb-4 relative">Same liquidity, Same platform , Better rates</p>
           <motion.h1 
             className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 relative"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            The Most Secure
+            The Most Optimized
             <br />
-            Payment Protocol
+            APY rates Provider
           </motion.h1>
 
           <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-8 relative">
