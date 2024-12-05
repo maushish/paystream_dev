@@ -249,8 +249,8 @@ export default function PaystreamLanding() {
                 {[
                   { quarter: "Q1 2025", items: ["Launch Paystream on Solana mainnet", "Introduce Paystream official token"] },
                   { quarter: "Q2 2025", items: ["Introduce Stream-rewards feature", "Introduce Streamlined-loans feature"] },
-                  { quarter: "Q3 2025", items: ["Expand to additional blockchain networks", "Launch mobile app"] },
-                  { quarter: "Q4 2025", items: ["Implement cross-chain streaming", "Introduce advanced analytics dashboard"] }
+                  { quarter: "Q3 2025", items: ["Expand to additional blockchain networks"] },
+                  { quarter: "Q4 2025", items: ["Implement cross-chain streaming and lending"] }
                 ].map((milestone, index) => (
                   <motion.div
                     key={index}
