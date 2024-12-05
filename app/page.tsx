@@ -2,15 +2,16 @@
 
 import React, { useEffect, useState } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { ArrowDown, DollarSign, Zap, BarChart3, Twitter, MessageCircle, Send } from 'lucide-react'
+import { ArrowDown, DollarSign, Zap, BarChart3, Twitter, MessageCircle, Send, X, Menu } from 'lucide-react'
 import Image from 'next/image'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import placeholderLogo from './placeholder.svg';
 import pythlogo from './pyth.png'
 import instandnodeslogo from './instantnodes.png'
 
 export default function PaystreamLanding() {
   const [isMobile, setIsMobile] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { scrollYProgress } = useScroll()
   const [currentStage, setCurrentStage] = useState("Q1 2025")
 
@@ -46,26 +47,30 @@ export default function PaystreamLanding() {
     }
   }, [])
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen)
+  }
+
   return (
     <div className="min-h-screen bg-white text-black">
       <nav id="navbar" className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-2">
-            <Image 
-  src={placeholderLogo}
-  alt="Paystream Logo" 
-  width={40} 
-  height={40} 
-  className="w-auto h-8" 
-/>              <span className="text-2xl font-bold">Paystream</span>
+              <Image 
+                src={placeholderLogo}
+                alt="Paystream Logo" 
+                width={40} 
+                height={40} 
+                className="w-auto h-8" 
+              />
+              <span className="text-2xl font-bold">Paystream</span>
             </div>
+            
+            {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
               <a href="https://paystream-whitepaper.vercel.app/" className="text-gray-600 hover:text-black transition-colors">Whitepaper</a>
               <a href="https://maushish-guide.notion.site/Paystream-14fe89e3279f80c883f5e12574e00922" className="text-gray-600 hover:text-black transition-colors">Docs</a>
-              {/* <a href="#" className="text-gray-600 hover:text-black transition-colors">Blog</a>
-              <a href="#" className="text-gray-600 hover:text-black transition-colors">Jobs</a>
-              <a href="#" className="text-gray-600 hover:text-black transition-colors">FAQ</a> */}
               <a 
                 href="https://t.me/khoo07878"
                 className="bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800 transition-all duration-300"
@@ -73,12 +78,48 @@ export default function PaystreamLanding() {
                 Join us
               </a>
             </div>
-            <button className="md:hidden text-current">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-              </svg>
+
+            {/* Mobile Menu Toggle */}
+            <button 
+              onClick={toggleMobileMenu} 
+              className="md:hidden text-current focus:outline-none"
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </button>
           </div>
+
+          {/* Mobile Menu Dropdown */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden bg-white absolute left-0 right-0 shadow-lg">
+              <div className="px-4 pt-2 pb-4 space-y-2">
+                <a 
+                  href="https://paystream-whitepaper.vercel.app/" 
+                  className="block py-2 text-gray-600 hover:text-black transition-colors"
+                  onClick={toggleMobileMenu}
+                >
+                  Whitepaper
+                </a>
+                <a 
+                  href="https://maushish-guide.notion.site/Paystream-14fe89e3279f80c883f5e12574e00922" 
+                  className="block py-2 text-gray-600 hover:text-black transition-colors"
+                  onClick={toggleMobileMenu}
+                >
+                  Docs
+                </a>
+                <a 
+                  href="https://t.me/khoo07878"
+                  className="block bg-black text-white text-center py-2 rounded-full hover:bg-gray-800 transition-all duration-300"
+                  onClick={toggleMobileMenu}
+                >
+                  Join us
+                </a>
+              </div>
+            </div>
+          )}
         </div>
       </nav>
 
