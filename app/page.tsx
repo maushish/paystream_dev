@@ -247,7 +247,7 @@ export default function PaystreamLanding() {
               <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-300" />
               <div className="space-y-24">
                 {[
-                  { quarter: "Q1 2025", items: ["Launch Paystream on Solana mainnet", "Introduce Paystream official token"] },
+                  { quarter: "Q1 2025", items: ["Launch Paystream on Solana mainnet", "Introduce Paystream official token","Introduce P2P engine on Kamino and Margin-Fi"] },
                   { quarter: "Q2 2025", items: ["Introduce Stream-rewards feature", "Introduce Streamlined-loans feature"] },
                   { quarter: "Q3 2025", items: ["Expand to additional blockchain networks"] },
                   { quarter: "Q4 2025", items: ["Implement cross-chain streaming and lending"] }
