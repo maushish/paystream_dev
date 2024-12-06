@@ -1,11 +1,11 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { ArrowDown, DollarSign, Zap, BarChart3, Twitter, MessageCircle, Send, X, Menu } from 'lucide-react'
 import Image from 'next/image'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import placeholderLogo from './placeholder.svg';
+import placeholderLogo from './placeholder.svg'
 import pythlogo from './pyth.png'
 import instandnodeslogo from './instantnodes.png'
 
@@ -53,18 +53,18 @@ export default function PaystreamLanding() {
 
   return (
     <div className="min-h-screen bg-white text-black">
-      <nav id="navbar" className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+      <nav id="navbar" className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-2 bg-white shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
+          <div className="flex justify-between items-center">
             <div className="flex items-center space-x-2">
               <Image 
                 src={placeholderLogo}
                 alt="Paystream Logo" 
                 width={40} 
                 height={40} 
-                className="w-auto h-8" 
+                className="w-auto h-14" 
               />
-              <span className="text-2xl font-bold">Paystream</span>
+              <span className="text-xl font-bold">Paystream</span>
             </div>
             
             {/* Desktop Navigation */}
@@ -80,46 +80,73 @@ export default function PaystreamLanding() {
             </div>
 
             {/* Mobile Menu Toggle */}
-            <button 
+            <motion.button 
               onClick={toggleMobileMenu} 
               className="md:hidden text-current focus:outline-none"
+              whileTap={{ scale: 0.95 }}
             >
-              {isMobileMenuOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
-            </button>
+              <AnimatePresence mode="wait" initial={false}>
+                {isMobileMenuOpen ? (
+                  <motion.div
+                    key="close"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <X className="h-6 w-6" />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="menu"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Menu className="h-6 w-6" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.button>
           </div>
 
           {/* Mobile Menu Dropdown */}
-          {isMobileMenuOpen && (
-            <div className="md:hidden bg-white absolute left-0 right-0 shadow-lg">
-              <div className="px-4 pt-2 pb-4 space-y-2">
-                <a 
-                  href="https://paystream-whitepaper.vercel.app/" 
-                  className="block py-2 text-gray-600 hover:text-black transition-colors"
-                  onClick={toggleMobileMenu}
-                >
-                  Whitepaper
-                </a>
-                <a 
-                  href="https://maushish-guide.notion.site/Paystream-14fe89e3279f80c883f5e12574e00922" 
-                  className="block py-2 text-gray-600 hover:text-black transition-colors"
-                  onClick={toggleMobileMenu}
-                >
-                  Docs
-                </a>
-                <a 
-                  href="https://t.me/khoo07878"
-                  className="block bg-black text-white text-center py-2 rounded-full hover:bg-gray-800 transition-all duration-300"
-                  onClick={toggleMobileMenu}
-                >
-                  Join us
-                </a>
-              </div>
-            </div>
-          )}
+          <AnimatePresence>
+            {isMobileMenuOpen && (
+              <motion.div 
+                className="md:hidden bg-white absolute left-0 right-0 shadow-lg"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="px-4 pt-2 pb-4 space-y-2">
+                  <a 
+                    href="https://paystream-whitepaper.vercel.app/" 
+                    className="block py-2 text-gray-600 hover:text-black transition-colors"
+                    onClick={toggleMobileMenu}
+                  >
+                    Whitepaper
+                  </a>
+                  <a 
+                    href="https://maushish-guide.notion.site/Paystream-14fe89e3279f80c883f5e12574e00922" 
+                    className="block py-2 text-gray-600 hover:text-black transition-colors"
+                    onClick={toggleMobileMenu}
+                  >
+                    Docs
+                  </a>
+                  <a 
+                    href="https://t.me/khoo07878"
+                    className="block bg-black text-white text-center py-2 rounded-full hover:bg-gray-800 transition-all duration-300"
+                    onClick={toggleMobileMenu}
+                  >
+                    Join us
+                  </a>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </nav>
 
@@ -263,19 +290,21 @@ export default function PaystreamLanding() {
             <div className="flex flex-wrap justify-center items-center gap-12">
               <a href="https://www.pyth.network/" target="_blank" rel="noopener noreferrer" className="block">
               <Image 
-  src={pythlogo}
-  alt="Pyth Logo" 
-  width={200} 
-  height={100} 
-  className="opacity-100 h-26 w-28 rounded-xl"
-/>                   </a>
+                src={pythlogo}
+                alt="Pyth Logo" 
+                width={200} 
+                height={100} 
+                className="opacity-100 h-26 w-28 rounded-xl"
+              />
+              </a>
               <a href="https://instantnodes.io/" target="_blank" rel="noopener noreferrer" className="block">
                 <Image 
-  src={instandnodeslogo}
-  alt="nodes Logo" 
-  width={200} 
-  height={200} 
-  className="opacity-100 h-26 rounded-xl"/>      
+                  src={instandnodeslogo}
+                  alt="nodes Logo" 
+                  width={200} 
+                  height={200} 
+                  className="opacity-100 h-26 rounded-xl"
+                />      
               </a>
             </div>
           </div>
@@ -328,35 +357,30 @@ export default function PaystreamLanding() {
             </div>
           </div>
         </div>
-
-
-
       </main>
 
       <footer className="bg-black text-white py-12">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-            <Image 
-  src={placeholderLogo}
-  alt="Paystream Logo" 
-  width={40} 
-  height={40} 
-  className="w-auto h-8" 
-/>              <p className="text-sm text-gray-400">Secure and flexible payment streaming and lending APY optimizer solutions.</p>
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
+            <div className="flex items-center space-x-4">
+              <Image 
+                src={placeholderLogo}
+                alt="Paystream Logo" 
+                width={40} 
+                height={40} 
+                className="w-auto h-8" 
+              />
+              <p className="text-sm text-gray-400">Secure and flexible payment streaming and lending APY optimizer solutions.</p>
             </div>
             <div>
-              <h3 className="text-lg font-semibold mb-4">Connect with us</h3>
-              <div className="flex space-x-6">
+              <h3 className="text-lg font-semibold mb-4 text-center md:text-left">Connect with us</h3>
+              <div className="flex justify-center md:justify-start space-x-6">
                 <a href="https://twitter.com/paystream_" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                   <Twitter className="w-8 h-8" />
                 </a>
                 <a href="https://t.me/paystreamv0" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                   <Send className="w-8 h-8" />
                 </a>
-                {/* <a href="https://discord.gg/paystream" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
-                  <MessageCircle className="w-8 h-8" />
-                </a> */}
               </div>
             </div>
             <div>
