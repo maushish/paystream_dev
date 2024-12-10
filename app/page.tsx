@@ -69,7 +69,7 @@ export default function PaystreamLanding() {
             
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              <a href="https://paystream-whitepaper.vercel.app/" className="text-gray-600 hover:text-black transition-colors">Whitepaper</a>
+              <a href="../public/whitepaper.pdf" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-black transition-colors">Whitepaper</a>
               <a href="https://maushish-guide.notion.site/Paystream-14fe89e3279f80c883f5e12574e00922" className="text-gray-600 hover:text-black transition-colors">Docs</a>
               <a 
                 href="https://t.me/khoo07878"
@@ -123,7 +123,9 @@ export default function PaystreamLanding() {
               >
                 <div className="px-4 pt-2 pb-4 space-y-2">
                   <a 
-                    href="https://paystream-whitepaper.vercel.app/" 
+                    href="/whitepaper.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer" 
                     className="block py-2 text-gray-600 hover:text-black transition-colors"
                     onClick={toggleMobileMenu}
                   >
