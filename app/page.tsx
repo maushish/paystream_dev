@@ -55,8 +55,8 @@ export default function PaystreamLanding() {
     <div className="min-h-screen bg-white text-black">
       <nav id="navbar" className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-2 bg-white shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-2">
+          <div className="flex justify-between items-center w-full">
+            <div className="flex items-center space-x-2 flex-shrink-0">
               <Image 
                 src={placeholderLogo}
                 alt="Paystream Logo" 
@@ -82,7 +82,7 @@ export default function PaystreamLanding() {
             {/* Mobile Menu Toggle */}
             <motion.button 
               onClick={toggleMobileMenu} 
-              className="md:hidden text-current focus:outline-none"
+              className="md:hidden text-current focus:outline-none ml-auto"
               whileTap={{ scale: 0.95 }}
             >
               <AnimatePresence mode="wait" initial={false}>
